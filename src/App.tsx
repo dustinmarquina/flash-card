@@ -4,6 +4,7 @@ import { db, Card } from "./db";
 export default function App() {
   const [folders, setFolders] = useState<string[]>([]);
   const [cards, setCards] = useState<Card[]>([]);
+  const [flip, setFlip] = useState(false);
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
   const [createFolderMode, setCreateFolderMode] = useState(true);
@@ -100,8 +101,6 @@ export default function App() {
       <div
         className="container"
         style={{
-          // display: "flex",
-          // flexDirection: "row",
           alignItems: "center",
         }}
       >
@@ -120,11 +119,7 @@ export default function App() {
           <div>
             <input name="folderName" placeholder="Folder Name" />
             <button>Create</button>
-            <button
-              type="button"
-              // onClick={() => setCreateFolderMode(false)}
-              style={{ marginLeft: 8 }}
-            >
+            <button type="button" style={{ marginLeft: 8 }}>
               Cancel
             </button>
           </div>
@@ -152,23 +147,26 @@ export default function App() {
   if (studyMode) {
     const card = cards[currentIndex];
     return (
-      <div className="container" onClick={() => setShowAnswer(!showAnswer)}>
+      <>
         <h1>Study Mode</h1>
         <div
-          style={{
-            border: "1px solid #ddd",
-            padding: 20,
-            marginBottom: 16,
-            textAlign: "center",
-          }}
+          className={`card ${flip ? "flip" : ""}`}
+          onClick={() => setFlip(!flip)}
+          style={{ paddingTop: 32, paddingBottom: 32 }}
         >
-          <h2>{showAnswer ? card.back : card.front}</h2>
+          <div className="front">
+            <h2>{card.front}</h2>
+          </div>
+          <div className="back">
+            <h2>{card.back}</h2>
+          </div>
         </div>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            paddingTop: 30,
           }}
         >
           <button onClick={previousCard} disabled={currentIndex === 0}>
@@ -192,7 +190,7 @@ export default function App() {
             <span style={{ fontSize: 20, marginRight: 8 }}>&rarr;</span>
           </button>
         </div>
-      </div>
+      </>
     );
   }
   return (
