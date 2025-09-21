@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { db, Card } from "./db";
+import { db, Card } from "./db/db";
+import FolderListScreen from "./screens/FolderListScreen";
+import StudyScreen from "./screens/StudyScreen";
+import CardListScreen from "./screens/CardListScreen";
 
 export default function App() {
   const [folders, setFolders] = useState<string[]>([]);
@@ -98,138 +101,38 @@ export default function App() {
 
   if (createFolderMode) {
     return (
-      <div
-        className="container"
-        style={{
-          alignItems: "center",
-        }}
-      >
-        <h1>Study Set</h1>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const form = e.target as typeof e.target & {
-              folderName: { value: string };
-            };
-            createFolder(form.folderName.value);
-            // setCreateFolderMode(false);
-          }}
-          style={{ width: "100%", gap: 8, marginBottom: 16 }}
-        >
-          <div>
-            <input name="folderName" placeholder="Folder Name" />
-            <button>Create</button>
-            <button type="button" style={{ marginLeft: 8 }}>
-              Cancel
-            </button>
-          </div>
-        </form>
-        <div>
-          <ul>
-            {folders.map((f, idx) => (
-              <div key={idx} style={{ marginTop: 8 }}>
-                <button onClick={() => selectFolder(idx + 1)}>{f}</button>
-                <button
-                  onClick={() => deleteFolder(idx + 1)}
-                  style={{ marginLeft: 8 }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <FolderListScreen
+        folders={folders}
+        createFolder={createFolder}
+        deleteFolder={deleteFolder}
+        selectFolder={selectFolder}
+      />
     );
   }
 
   // --- UI rendering ---
   if (studyMode) {
-    const card = cards[currentIndex];
     return (
-      <>
-        <h1>Study Mode</h1>
-        <div
-          className={`card ${flip ? "flip" : ""}`}
-          onClick={() => setFlip(!flip)}
-          style={{ paddingTop: 32, paddingBottom: 32 }}
-        >
-          <div className="front">
-            <h2>{card.front}</h2>
-          </div>
-          <div className="back">
-            <h2>{card.back}</h2>
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingTop: 30,
-          }}
-        >
-          <button onClick={previousCard} disabled={currentIndex === 0}>
-            <span style={{ fontSize: 20, marginRight: 8 }}>&larr;</span>
-          </button>
-          <div
-            style={{
-              padding: "8px 16px",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {currentIndex + 1}/{cards.length}
-          </div>
-          <button
-            onClick={nextCard}
-            disabled={currentIndex + 1 >= cards.length}
-          >
-            <span style={{ fontSize: 20, marginRight: 8 }}>&rarr;</span>
-          </button>
-        </div>
-      </>
+      <StudyScreen
+        cards={cards}
+        currentIndex={currentIndex}
+        flip={flip}
+        setFlip={setFlip}
+        nextCard={nextCard}
+        previousCard={previousCard}
+      />
     );
   }
   return (
-    <div className="container">
-      <h1>Flashcards App</h1>
-      <form
-        onSubmit={addCard}
-        style={{ width: "100%", display: "flex", gap: 8, marginBottom: 16 }}
-      >
-        <input
-          placeholder="Front"
-          value={front}
-          onChange={(e) => setFront(e.target.value)}
-        />
-        <input
-          placeholder="Back"
-          value={back}
-          onChange={(e) => setBack(e.target.value)}
-        />
-        <button type="submit">Add</button>
-      </form>
-      <h2>Cards ({cards.length})</h2>
-      <ul>
-        {cards.map((c) => (
-          <li key={c.id}>
-            <b>{c.front}</b> — {c.back}
-            <button onClick={() => deleteCard(c.id)} style={{ marginLeft: 8 }}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={startStudy}
-        disabled={cards.length === 0}
-        style={{ marginTop: 20 }}
-      >
-        Start Study
-      </button>
-    </div>
+    <CardListScreen
+      cards={cards}
+      front={front}
+      back={back}
+      setFront={setFront}
+      setBack={setBack}
+      addCard={addCard}
+      deleteCard={deleteCard}
+      startStudy={startStudy}
+    />
   );
 }
