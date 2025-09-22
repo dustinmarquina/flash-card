@@ -1,4 +1,5 @@
 import React from "react";
+import { useFlashcards } from "../store/useFlashcards";
 
 interface FolderListScreenProps {
   folders: string[];
@@ -13,6 +14,7 @@ export default function FolderListScreen({
   deleteFolder,
   selectFolder,
 }: FolderListScreenProps) {
+  //   const createFolder = useFlashcards((state) => state.addFolder);
   return (
     <div
       className="container"

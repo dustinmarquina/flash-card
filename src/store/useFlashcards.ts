@@ -32,17 +32,28 @@ export const useFlashcards = create<FlashcardState>((set, get) => ({
   setScreen: (s) => set({ screen: s }),
 
   currentFolderId: null,
-  setCurrentFolderId: (id) => set({ currentFolderId: id }),
+  setCurrentFolderId: async (id) => {
+    set({ currentFolderId: id });
+    console.log("Current folder ID set to:", id);
+    if (id !== null) {
+      await get().loadCards(id);
+    } else {
+      set({ cards: [] });
+    }
+    console.log("Cards after setting folder ID:", get().cards);
+  },
 
   folders: [],
   loadFolders: async () => {
     const all = await db.folders.toArray();
+    console.log("Loaded folders:", all);
     set({ folders: all });
   },
-  addFolder: (name) =>
-    set((state) => ({
-      folders: [...state.folders, { id: folderCounter++, name }],
-    })),
+  addFolder: async (name) => {
+    await db.folders.add({ name });
+    await get().loadFolders();
+    console.log("Added folder:", name);
+  },
 
   cards: [],
   loadCards: async (folderId) => {
