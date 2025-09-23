@@ -1,12 +1,55 @@
-# React + Vite
+# 📚 Flashcards App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple **Progressive Web App (PWA)** built with **React, Vite, TailwindCSS, and shadcn/ui** for studying with flashcards.  
+Supports offline use with IndexedDB for persistent storage.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
+- 📁 Create, view, and delete **folders (study sets)**
+- 📝 Add, edit, and delete **cards** within a folder
+- 🔄 Study mode with card flipping
+- 📊 Track card statistics (accuracy, last reviewed) *(placeholder for now)*
+- 💾 Offline support via **IndexedDB** and **service worker caching**
+- 🎨 Styled with **TailwindCSS + shadcn/ui** components  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+- **React 18** + **Vite** ⚡  
+- **TailwindCSS v4** + **shadcn/ui** 🎨  
+- **Zustand** for state management 🐻  
+- **Dexie.js (IndexedDB)** for local storage 🗄️  
+- **Workbox** for PWA service worker ⚙️  
+
+---
+
+## 📂 Project Structure
+src/
+├── components/       # shadcn/ui components
+├── screens/          # Screens (FolderList, CardList, Study)
+├── store/            # Zustand store (useFlashcards)
+├── db/               # Dexie IndexedDB setup
+├── App.tsx           # Root component
+└── main.tsx          # Vite entry
+
+📱 PWA Support
+	•	Works offline (service worker + cache)
+	•	Installable on mobile/desktop
+	•	Data stored in IndexedDB, so your sets/cards stay saved
+  
+Folder List Screen
+	•	Create new study sets
+	•	See all folders with card counts
+<img width="862" height="622" alt="image" src="https://github.com/user-attachments/assets/d5d5878a-41f2-46f1-92fa-7ecfdeec5642" />
+
+Card List Screen
+	•	Add new cards
+	•	View/edit/delete cards
+	•	Start study session
+<img width="710" height="891" alt="image" src="https://github.com/user-attachments/assets/07627044-db3f-47ae-baf9-7234a1db3bea" />
+
+Study Screen
+	•	Flip cards to test yourself
+	•	Track progress
+<img width="876" height="696" alt="image" src="https://github.com/user-attachments/assets/e7bceb44-dc95-48ff-8ba4-9d961de044ef" />
