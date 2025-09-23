@@ -102,7 +102,7 @@ export default function App() {
   if (createFolderMode) {
     return (
       <FolderListScreen
-        folders={folders}
+        // folders={folders}
         createFolder={createFolder}
         deleteFolder={deleteFolder}
         selectFolder={selectFolder}
@@ -124,15 +124,19 @@ export default function App() {
     );
   }
   return (
-    <CardListScreen
-      cards={cards}
-      front={front}
-      back={back}
-      setFront={setFront}
-      setBack={setBack}
-      addCard={addCard}
-      deleteCard={deleteCard}
-      startStudy={startStudy}
-    />
+    <div className="app">
+      <div className="container">
+        <CardListScreen
+          cards={cards}
+          front={front}
+          back={back}
+          setFront={setFront}
+          setBack={setBack}
+          addCard={addCard}
+          deleteCard={deleteCard}
+          startStudy={startStudy}
+        />
+      </div>
+    </div>
   );
 }
